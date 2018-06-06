@@ -1,0 +1,26 @@
+def extractor(url):
+    from bs4 import BeautifulSoup
+    import requests
+    from selenium import webdriver
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.firefox.options import Options
+    options= Options()
+    options.set_headless(headless=True)
+    driver = webdriver.Firefox(firefox_options=options, executable_path=r'C:\Users\arun1\AppData\Local\Programs\Python\Python36-32\geckodriver.exe')
+    driver.get(url)
+    html=driver.page_source
+    driver.quit()
+    soup=BeautifulSoup(html,'html.parser')
+    list1=soup.find_all(id='iframe-embed')
+    a=list(list1)
+    a=str(a).split('=')
+    a=str(a).split('"')
+    return(list(a)[13])
+
+import time
+import webbrowser
+url=input('Enter the url of the webpage from solarmoviez.ru that you wish to extract:\n')
+ini_time=time.time()
+webbrowser.open(str(extractor(url)))
+print('Your program took '+str(time.time()-ini_time)+' seconds to run. ')
+
